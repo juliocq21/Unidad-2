@@ -4,112 +4,40 @@
  */
 package unidad2;
 
+import java.util.Hashtable;
+
 /**
  *
- * @author LAB-USR-AREQUIPA
+ * @author user
  */
-
-
-import java.util.Scanner;
-
 public class Unidad2 {
+
+    /**
+     * @param args the command line arguments
+     */
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        HashTableChainingUsuarios usuarios = new HashTableChainingUsuarios(10);
+         Hashtable<String, Integer> tabla = new Hashtable<>();
 
-        int opcion;
-        Usuario usuarioActual = null;
+        // Insertar elementos (clave, valor)
+        tabla.put("Julio", 25);
+        tabla.put("Maria", 30);
+        tabla.put("Pedro", 20);
 
-        do {
-            System.out.println("\n=== MENÚ PRINCIPAL ===");
-            System.out.println("1. Registrarse");
-            System.out.println("2. Iniciar sesión");
-            System.out.println("3. Mostrar todos los usuarios (debug)");
-            System.out.println("0. Salir");
-            System.out.print("Elige opción: ");
-            opcion = sc.nextInt();
-            sc.nextLine();
+        // Buscar claves en la tabla
+        String claveBuscada = "Maria";
+        if (tabla.containsKey(claveBuscada)) {
+            System.out.println("Encontrado: " + claveBuscada + " â†’ " + tabla.get(claveBuscada));
+        } else {
+            System.out.println("No se encontrÃ³ la clave: " + claveBuscada);
+        }
 
-            switch (opcion) {
-                case 1:
-                    System.out.print("Usuario: ");
-                    String user = sc.nextLine();
-                    System.out.print("Contraseña: ");
-                    String pass = sc.nextLine();
-                    System.out.print("Saldo inicial: ");
-                    double saldo = sc.nextDouble();
-
-                    usuarios.registrar(new Usuario(user, pass, saldo));
-                    System.out.println("? Registro exitoso.");
-                    break;
-
-                case 2:
-                    System.out.print("Usuario: ");
-                    String u = sc.nextLine();
-                    System.out.print("Contraseña: ");
-                    String p = sc.nextLine();
-
-                    usuarioActual = usuarios.iniciarSesion(u, p);
-                    if (usuarioActual != null) {
-                        System.out.println("? Bienvenido " + usuarioActual.getUsername());
-                        menuUsuario(usuarioActual, sc);
-                    } else {
-                        System.out.println("? Usuario o contraseña incorrectos.");
-                    }
-                    break;
-
-                case 3:
-                    usuarios.mostrarUsuarios();
-                    break;
-
-                case 0:
-                    System.out.println("Saliendo...");
-                    break;
-
-                default:
-                    System.out.println("Opción inválida.");
-            }
-        } while (opcion != 0);
-
-        sc.close();
+        // Probar con otra clave
+        claveBuscada = "Ana";
+        if (tabla.containsKey(claveBuscada)) {
+            System.out.println("Encontrado: " + claveBuscada + " â†’ " + tabla.get(claveBuscada));
+        } else {
+            System.out.println("No se encontrÃ³ la clave: " + claveBuscada);
+        }
     }
-
-    private static void menuUsuario(Usuario usuario, Scanner sc) {
-        int opcion;
-        do {
-            System.out.println("\n=== MENÚ DE USUARIO (" + usuario.getUsername() + ") ===");
-            System.out.println("1. Consultar saldo");
-            System.out.println("2. Depositar");
-            System.out.println("3. Retirar");
-            System.out.println("0. Cerrar sesión");
-            System.out.print("Elige opción: ");
-            opcion = sc.nextInt();
-
-            switch (opcion) {
-                case 1:
-                    System.out.println("? Saldo actual: " + usuario.getSaldo());
-                    break;
-                case 2:
-                    System.out.print("Monto a depositar: ");
-                    double dep = sc.nextDouble();
-                    usuario.depositar(dep);
-                    System.out.println("? Depósito exitoso.");
-                    break;
-                case 3:
-                    System.out.print("Monto a retirar: ");
-                    double ret = sc.nextDouble();
-                    if (usuario.retirar(ret)) {
-                        System.out.println("? Retiro exitoso.");
-                    } else {
-                        System.out.println("? Saldo insuficiente.");
-                    }
-                    break;
-                case 0:
-                    System.out.println("? Cerrando sesión...");
-                    break;
-                default:
-                    System.out.println("Opción inválida.");
-            }
-        } while (opcion != 0);
-    }
+    
 }
